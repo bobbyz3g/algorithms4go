@@ -247,10 +247,10 @@ func (t *bst) Keys() []Key {
 	return t.KeysByIndex(t.Min(), t.Max())
 }
 
-type intCmp int
+type IntCmp int
 
-func (i intCmp) CompareTo(p interface{}) int {
-	return (int)(i - p.(intCmp))
+func (i IntCmp) CompareTo(p interface{}) int {
+	return (int)(i - p.(IntCmp))
 }
 
 type IntBST struct {
@@ -258,18 +258,18 @@ type IntBST struct {
 }
 
 func NewIntBST() *IntBST                       { return &IntBST{NewBST()} }
-func (t *IntBST) Get(key int) Value            { return t.baseTree.Get(intCmp(key)) }
-func (t *IntBST) Put(key int, val interface{}) { t.baseTree.Put(intCmp(key), val) }
-func (t *IntBST) Min() int                     { return (int)(t.baseTree.Min().(intCmp)) }
-func (t *IntBST) Max() int                     { return (int)(t.baseTree.Max().(intCmp)) }
+func (t *IntBST) Get(key int) Value            { return t.baseTree.Get(IntCmp(key)) }
+func (t *IntBST) Put(key int, val interface{}) { t.baseTree.Put(IntCmp(key), val) }
+func (t *IntBST) Min() int                     { return (int)(t.baseTree.Min().(IntCmp)) }
+func (t *IntBST) Max() int                     { return (int)(t.baseTree.Max().(IntCmp)) }
 func (t *IntBST) Size() int                    { return t.baseTree.Size() }
-func (t *IntBST) Delete(key int)               { t.baseTree.Delete(intCmp(key)) }
+func (t *IntBST) Delete(key int)               { t.baseTree.Delete(IntCmp(key)) }
 func (t *IntBST) Keys() []int                  { return t.KeysByIndex(t.baseTree.Min(), t.baseTree.Max()) }
 func (t *IntBST) KeysByIndex(lo, hi Key) []int {
 	a := t.baseTree.KeysByIndex(lo, hi)
 	b := make([]int, len(a))
 	for index, val := range a {
-		b[index] = (int)(val.(intCmp))
+		b[index] = (int)(val.(IntCmp))
 	}
 	return b
 }
