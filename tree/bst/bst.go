@@ -18,6 +18,13 @@ type BST struct {
 	Comparator base.CompareFunc
 }
 
+func NewBST(Comparator base.CompareFunc) *BST {
+	return &BST{
+		nil,
+		Comparator,
+	}
+}
+
 func (x *Node) size() int {
 	if x == nil {
 		return 0
@@ -129,7 +136,7 @@ func (t *BST) selects(x *Node, k int) interface{} {
 	if n > k {
 		return t.selects(x.left, k)
 	} else if n < k {
-		return t.selects(x.right, k)
+		return t.selects(x.right, k-n-1)
 	} else {
 		return x.key
 	}
@@ -147,6 +154,66 @@ func (t *BST) rank(x *Node, key interface{}) int {
 		return 1 + x.left.size() + t.rank(x.right, key)
 	} else {
 		return x.left.size()
+	}
+}
+
+func (t *BST) keysByIndex(x *Node, keys *[]interface{}, lo interface{}, hi interface{}, cur *int) {
+	if x == nil {
+		return
+	}
+
+	cmplo := t.Comparator(lo, x.key)
+	cmphi := t.Comparator(hi, x.key)
+	if cmplo < 0 {
+		t.keysByIndex(x.left, keys, lo, hi, cur)
+	}
+
+	if cmplo <= 0 && cmphi >= 0 {
+		(*keys)[*cur] = x.key
+		*cur++
+	}
+
+	if cmphi > 0 {
+		t.keysByIndex(x.right, keys, lo, hi, cur)
+	}
+}
+
+func (t *BST) floor(x *Node, key interface{}) *Node {
+	if x == nil {
+		return nil
+	}
+	cmp := t.Comparator(key, x.key)
+	if cmp == 0 {
+		return x
+	} else if cmp < 0 {
+		return t.floor(x.left, key)
+	}
+
+	tmp := t.floor(x.right, key)
+	if tmp != nil {
+		return tmp
+	} else {
+		return x
+	}
+}
+
+func (t *BST) ceiling(x *Node, key interface{}) *Node {
+	if x == nil {
+		return nil
+	}
+	cmp := t.Comparator(key, x.key)
+
+	if cmp == 0 {
+		return x
+	} else if cmp > 0 {
+		return t.ceiling(x.right, key)
+	}
+
+	tmp := t.ceiling(x.left, key)
+	if tmp != nil {
+		return tmp
+	} else {
+		return x
 	}
 }
 
@@ -171,22 +238,88 @@ func (t *BST) Delete(key interface{}) {
 	t.root = t.delete(t.root, key)
 }
 
+// DeleteMin deletes min node of tree.
+func (t *BST) DeleteMin() {
+	t.root = t.deleteMin(t.root)
+}
+
+// DeleteMax deletes max node of tree.
+func (t *BST) DeleteMax() {
+	t.root = t.deleteMax(t.root)
+}
+
 // Min returns the min value in tree.
 func (t *BST) Min() interface{} {
-	return t.min(t.root)
+	x := t.min(t.root)
+	if x == nil {
+		return nil
+	}
+	return x.key
 }
 
 // Max returns the max value in tree.
 func (t *BST) Max() interface{} {
-	return t.max(t.root)
+	x := t.max(t.root)
+	if x == nil {
+		return nil
+	}
+	return x.key
 }
 
-// Select returns Kth key.
+// Select returns the key in the symbol table whose rank is k.
+// This is the (k+1)st smallest key in the symbol table.
+// t.Select(k) == Keys[k]
 func (t *BST) Select(k int) interface{} {
+	if k < 0 || k > t.Size() {
+		return nil
+	}
 	return t.selects(t.root, k)
 }
 
-// Rank returns key's ranking.
+// Rank returns the number of keys in the symbol table strictly less than input key.
 func (t *BST) Rank(key interface{}) int {
+	if key == nil {
+		return -1
+	}
 	return t.rank(t.root, key)
+}
+
+// Size returns number of nodes in the tree.
+func (t *BST) Size() int {
+	return t.root.size()
+}
+
+// Keys returns all keys in order.
+func (t *BST) Keys() []interface{} {
+	return t.KeysByIndex(t.Min(), t.Max())
+}
+
+// KeysByIndex returns all keys between "lo" and "hi" in order.
+func (t *BST) KeysByIndex(lo, hi interface{}) []interface{} {
+	keys := make([]interface{}, t.root.size())
+	cur := 0
+	t.keysByIndex(t.root, &keys, lo, hi, &cur)
+	return keys
+}
+
+// Floor returns floor key of the input key, or nil if no floor is found.
+func (t *BST) Floor(key interface{}) interface{} {
+	x := t.floor(t.root, key)
+	if x == nil {
+		return nil
+	}
+	return x.key
+}
+
+// Ceiling returns ceiling key of the input key, or nil if no ceiling is found.
+func (t *BST) Ceiling(key interface{}) interface{} {
+	x := t.ceiling(t.root, key)
+	if x == nil {
+		return nil
+	}
+	return x.key
+}
+
+func (t *BST) Empty() bool {
+	return t.root.size() == 0
 }
