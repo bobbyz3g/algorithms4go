@@ -27,7 +27,7 @@ func TestBST_Put(t *testing.T) {
 	}
 
 	if act := tree.Size(); act != 8 {
-		t.Errorf("Put Error: excepted %v, got %v", 8, act)
+		t.Errorf("Size Error: excepted %v, got %v", 8, act)
 	}
 
 	k := tree.Keys()
@@ -40,7 +40,7 @@ func TestBST_Put(t *testing.T) {
 	for i, v := range k {
 		act := tree.Get(v)
 		if values[i] != act {
-			t.Errorf("Keys Error: excepted %v, got %v", values[i], act)
+			t.Errorf("Get Error: excepted %v, got %v", values[i], act)
 		}
 	}
 
@@ -64,7 +64,7 @@ func TestBST_Put(t *testing.T) {
 
 	for i, v := range keys {
 		if act := tree.Rank(v); act != i {
-			t.Errorf("Select Error: excepted %v, got %v", i, act)
+			t.Errorf("Rank Error: excepted %v, got %v", i, act)
 		}
 	}
 }
