@@ -9,12 +9,12 @@ type Node struct {
 	value interface{}
 	left  *Node
 	right *Node
-	n     int //The total number of nodes in the subtree rooted at this node.
+	n     int //The total number of nodes in the subtree Rooted at this node.
 }
 
 // BST is a binary search tree.
 type BST struct {
-	root       *Node
+	Root       *Node
 	Comparator base.CompareFunc
 }
 
@@ -220,12 +220,12 @@ func (t *BST) ceiling(x *Node, key interface{}) *Node {
 // Put inserts key-value into the tree.
 // If there is already a "key" in the tree, Put will update the value of key.
 func (t *BST) Put(key, val interface{}) {
-	t.root = t.put(t.root, key, val)
+	t.Root = t.put(t.Root, key, val)
 }
 
 // Get returns value of node by its key or nil if key is not found in tree.
 func (t *BST) Get(key interface{}) interface{} {
-	return t.get(t.root, key)
+	return t.get(t.Root, key)
 }
 
 // Contains returns true if tree contains key or false if doesn't contain.
@@ -235,22 +235,22 @@ func (t *BST) Contains(key interface{}) bool {
 
 // Delete deletes node from tree by key.
 func (t *BST) Delete(key interface{}) {
-	t.root = t.delete(t.root, key)
+	t.Root = t.delete(t.Root, key)
 }
 
 // DeleteMin deletes min node of tree.
 func (t *BST) DeleteMin() {
-	t.root = t.deleteMin(t.root)
+	t.Root = t.deleteMin(t.Root)
 }
 
 // DeleteMax deletes max node of tree.
 func (t *BST) DeleteMax() {
-	t.root = t.deleteMax(t.root)
+	t.Root = t.deleteMax(t.Root)
 }
 
 // Min returns the min value in tree.
 func (t *BST) Min() interface{} {
-	x := t.min(t.root)
+	x := t.min(t.Root)
 	if x == nil {
 		return nil
 	}
@@ -259,7 +259,7 @@ func (t *BST) Min() interface{} {
 
 // Max returns the max value in tree.
 func (t *BST) Max() interface{} {
-	x := t.max(t.root)
+	x := t.max(t.Root)
 	if x == nil {
 		return nil
 	}
@@ -273,7 +273,7 @@ func (t *BST) Select(k int) interface{} {
 	if k < 0 || k > t.Size() {
 		return nil
 	}
-	return t.selects(t.root, k)
+	return t.selects(t.Root, k)
 }
 
 // Rank returns the number of keys in the symbol table strictly less than input key.
@@ -281,12 +281,12 @@ func (t *BST) Rank(key interface{}) int {
 	if key == nil {
 		return -1
 	}
-	return t.rank(t.root, key)
+	return t.rank(t.Root, key)
 }
 
 // Size returns number of nodes in the tree.
 func (t *BST) Size() int {
-	return t.root.size()
+	return t.Root.size()
 }
 
 // Keys returns all keys in order.
@@ -296,15 +296,15 @@ func (t *BST) Keys() []interface{} {
 
 // KeysByIndex returns all keys between "lo" and "hi" in order.
 func (t *BST) KeysByIndex(lo, hi interface{}) []interface{} {
-	keys := make([]interface{}, t.root.size())
+	keys := make([]interface{}, t.Root.size())
 	cur := 0
-	t.keysByIndex(t.root, &keys, lo, hi, &cur)
+	t.keysByIndex(t.Root, &keys, lo, hi, &cur)
 	return keys
 }
 
 // Floor returns floor key of the input key, or nil if no floor is found.
 func (t *BST) Floor(key interface{}) interface{} {
-	x := t.floor(t.root, key)
+	x := t.floor(t.Root, key)
 	if x == nil {
 		return nil
 	}
@@ -313,7 +313,7 @@ func (t *BST) Floor(key interface{}) interface{} {
 
 // Ceiling returns ceiling key of the input key, or nil if no ceiling is found.
 func (t *BST) Ceiling(key interface{}) interface{} {
-	x := t.ceiling(t.root, key)
+	x := t.ceiling(t.Root, key)
 	if x == nil {
 		return nil
 	}
@@ -321,5 +321,5 @@ func (t *BST) Ceiling(key interface{}) interface{} {
 }
 
 func (t *BST) Empty() bool {
-	return t.root.size() == 0
+	return t.Root.size() == 0
 }
