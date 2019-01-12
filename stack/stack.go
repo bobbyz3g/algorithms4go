@@ -24,8 +24,7 @@ func (s *Stack) Push(value interface{}) {
 	s.len++
 }
 
-// Pop pops the top item of stack and returns it.
-// If stack is empty, Peek will return nil.
+// Pop pops the top item of stack and returns it, or nil if stack is empty.
 func (s *Stack) Pop() interface{} {
 	if s.len == 0 {
 		return nil
@@ -41,8 +40,7 @@ func (s *Stack) Len() int {
 	return s.len
 }
 
-// Peek views top item of stack.
-// If stack is empty, Peek will return nil.
+// Peek views top item of stack, or nil if stack is empty.
 func (s *Stack) Peek() interface{} {
 	if s.len == 0 {
 		return nil
