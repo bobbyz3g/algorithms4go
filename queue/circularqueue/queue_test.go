@@ -5,32 +5,32 @@ import "testing"
 func TestCircularQueue(t *testing.T) {
 	q := New(5)
 
-	if q.Get() != nil {
-		t.Errorf("Get Error: Empty queue shold get nil.")
+	if q.Dequeue() != nil {
+		t.Errorf("Dequeue Error: Empty queue shold get nil.")
 	}
 
-	q.Put(1)
+	q.Enqueue(1)
 	var item interface{}
-	item = q.Get()
+	item = q.Dequeue()
 
 	if item != 1 {
-		t.Errorf("Get Error: Queue should get %d, but get %d", 1, item)
+		t.Errorf("Dequeue Error: Queue should get %d, but get %d", 1, item)
 	}
 
 	for i := 1; i < 6; i++ {
-		q.Put(i)
+		q.Enqueue(i)
 	}
 
-	err := q.Put(7)
+	err := q.Enqueue(7)
 
 	if err == nil {
-		t.Error("Put Error: Put item to fulled queue")
+		t.Error("Enqueue Error: Enqueue item to fulled queue")
 	}
 
 	for i := 1; i < 6; i++ {
-		item = q.Get()
+		item = q.Dequeue()
 		if item != i {
-			t.Errorf("Get Error: Queue should get %d, but get %d", 1, item)
+			t.Errorf("Dequeue Error: Queue should get %d, but get %d", 1, item)
 		}
 	}
 }

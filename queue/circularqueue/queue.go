@@ -28,8 +28,8 @@ func New(cap int) *CircularQueue {
 	}
 }
 
-// Put adds the item to queue.
-func (q *CircularQueue) Put(item interface{}) error {
+// Enqueue adds the item to queue.
+func (q *CircularQueue) Enqueue(item interface{}) error {
 	if q.len == q.cap {
 		return &QueueError{"Queue is full"}
 	}
@@ -39,8 +39,8 @@ func (q *CircularQueue) Put(item interface{}) error {
 	return nil
 }
 
-// Get retires item from the queue.
-func (q *CircularQueue) Get() interface{} {
+// Dequeue retires item from the queue.
+func (q *CircularQueue) Dequeue() interface{} {
 	if q.len == 0 {
 		return nil
 	}
