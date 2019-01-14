@@ -1,13 +1,11 @@
 package stack
 
 type Iterator struct {
-	stack   *Stack
 	current *node
 }
 
 func (s *Stack) Iterator() Iterator {
 	return Iterator{
-		stack:   s,
 		current: s.top,
 	}
 }

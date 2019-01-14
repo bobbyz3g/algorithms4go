@@ -1,13 +1,12 @@
 package bag
 
 type Iterator struct {
-	bag     *Bag
 	current *node
 }
 
 // Iterator returns a new iterator of bag.
 func (b *Bag) Iterator() Iterator {
-	return Iterator{bag: b, current: b.first}
+	return Iterator{current: b.first}
 }
 
 // Value returns current value of iterator.
