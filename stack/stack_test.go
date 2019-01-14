@@ -42,3 +42,20 @@ func TestStack(t *testing.T) {
 		t.Errorf("Stack should pop 3.")
 	}
 }
+
+func TestStack_Iterator(t *testing.T) {
+	s := New()
+
+	for i := 10; i > 0; i-- {
+		s.Push(i)
+	}
+
+	iter := s.Iterator()
+	j := 1
+	for iter.HasNext() {
+		if v := iter.Value(); v != j {
+			t.Errorf("Iterator Error: excepted %v, got %v", j, v)
+		}
+		j++
+	}
+}
