@@ -1,6 +1,8 @@
 package graph
 
-import "testing"
+import (
+	"testing"
+)
 
 //Test Graph
 //  [0]-------- [6]     [7] ---- [8]
@@ -75,6 +77,76 @@ func TestGraph_Iterator(t *testing.T) {
 				t.Errorf("Iterator Error: excepted %v, got %v", adjs[i][j], item)
 			}
 			j++
+		}
+	}
+}
+
+var es = [][]int{
+	{0, 5},
+	{2, 4},
+	{2, 3},
+	{1, 2},
+	{0, 1},
+	{3, 4},
+	{3, 5},
+	{0, 2},
+}
+
+var dfspaths = [][]int{
+	{0},
+	{0, 2, 1},
+	{0, 2},
+	{0, 2, 3},
+	{0, 2, 3, 4},
+	{0, 2, 3, 5},
+}
+
+var bfspaths = [][]int{
+	{0},
+	{0, 1},
+	{0, 2},
+	{0, 2, 3},
+	{0, 2, 4},
+	{0, 5},
+}
+
+func TestGraph_DepthFirstPaths(t *testing.T) {
+	g := NewGraphWithV(6)
+	for _, e := range es {
+		g.AddEdge(e[0], e[1])
+	}
+
+	paths := g.DepthFirstPaths(0)
+	for v := 0; v < g.Vs(); v++ {
+		if paths.HasPathTo(v) {
+			iter := paths.PathTo(v).Iterator()
+			j := 0
+			for iter.HasNext() {
+				if val := iter.Value().(int); val != dfspaths[v][j] {
+					t.Errorf("DFS error: excepted %v, got %v", dfspaths[v][j], val)
+				}
+				j++
+			}
+		}
+	}
+}
+
+func TestGraph_BreadthFirstPaths(t *testing.T) {
+	g := NewGraphWithV(6)
+	for _, e := range es {
+		g.AddEdge(e[0], e[1])
+	}
+	paths := g.BreadthFirstPaths(0)
+	for v := 0; v < g.Vs(); v++ {
+		if paths.HasPathTo(v) {
+			iter := paths.PathTo(v).Iterator()
+			j := 0
+			for iter.HasNext() {
+				if val := iter.Value().(int); val != bfspaths[v][j] {
+					t.Errorf("DFS error: excepted %v, got %v", dfspaths[v][j], val)
+				}
+				j++
+			}
 		}
 	}
 }
