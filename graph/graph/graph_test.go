@@ -1,6 +1,7 @@
 package graph
 
 import (
+	"github.com/Kaiser925/algorithms4go/bag"
 	"testing"
 )
 
@@ -54,11 +55,11 @@ func TestGraph(t *testing.T) {
 	}
 
 	if es := g.Es(); es != es_len {
-		t.Errorf("Es Error: excepted %v, got %v", es_len, es)
+		t.Errorf("Es error: excepted %v, got %v", es_len, es)
 	}
 
 	if vs := g.Vs(); vs != 13 {
-		t.Errorf("Es Error: excepted %v, got %v", 13, vs)
+		t.Errorf("Es error: excepted %v, got %v", 13, vs)
 	}
 }
 
@@ -74,7 +75,7 @@ func TestGraph_Iterator(t *testing.T) {
 		j := 0
 		for iter.HasNext() {
 			if item := iter.Value(); item != adjs[i][j] {
-				t.Errorf("Iterator Error: excepted %v, got %v", adjs[i][j], item)
+				t.Errorf("Iterator error: excepted %v, got %v", adjs[i][j], item)
 			}
 			j++
 		}
@@ -147,6 +148,42 @@ func TestGraph_BreadthFirstPaths(t *testing.T) {
 				}
 				j++
 			}
+		}
+	}
+}
+
+func TestGraph_ConnectedComponent(t *testing.T) {
+	g := NewGraphWithV(13)
+	for _, e := range test {
+		g.AddEdge(e[0], e[1])
+	}
+
+	ccs := [][]int{
+		{6, 5, 4, 3, 2, 1, 0},
+		{8, 7},
+		{12, 11, 10, 9},
+	}
+
+	cc := g.ConnectedComponent()
+	m := cc.Count()
+	if m != 3 {
+		t.Errorf("Count error: excepted %v, got %v", 3, m)
+	}
+
+	coms := make([]bag.Bag, m)
+
+	for v := 0; v < g.Vs(); v++ {
+		coms[cc.Id(v)].Add(v)
+	}
+
+	for i := 0; i < m; i++ {
+		iter := coms[i].Iterator()
+		j := 0
+		for iter.HasNext() {
+			if val := iter.Value().(int); val != ccs[i][j] {
+				t.Errorf("CC error: excepted %v, got %v", ccs[i][j], val)
+			}
+			j++
 		}
 	}
 }
