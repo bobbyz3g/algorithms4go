@@ -68,3 +68,34 @@ func TestSingleLinkedList_Back_And_Front(t *testing.T) {
 		t.Errorf("Front or Back error")
 	}
 }
+
+func TestSingleLinkedList_Iterator(t *testing.T) {
+	l := New()
+	l.Add("a")
+	l.Add("b")
+	l.Add("c")
+
+	j := 1
+	iter := l.Iterator()
+	for iter.HasNext() {
+		val := iter.Value()
+		switch j {
+		case 1:
+			if val != "a" {
+				t.Errorf("Iterator error: excepted %v, got %v", "a", val)
+			}
+		case 2:
+			if val != "b" {
+				t.Errorf("Iterator error: excepted %v, got %v", "b", val)
+			}
+		case 3:
+			if val != "c" {
+				t.Errorf("Iterator error: excepted %v, got %v", "c", val)
+			}
+
+		default:
+			t.Errorf("Iterator error: too many value.")
+		}
+		j++
+	}
+}
