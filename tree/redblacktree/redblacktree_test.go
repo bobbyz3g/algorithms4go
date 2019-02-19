@@ -40,7 +40,7 @@ func TestTree_Put(t *testing.T) {
 	for i, v := range k {
 		act := tree.Get(v)
 		if values[i] != act {
-			t.Errorf("Get Error: excepted %v, got %v", values[i], act)
+			t.Errorf("Dequeue Error: excepted %v, got %v", values[i], act)
 		}
 	}
 

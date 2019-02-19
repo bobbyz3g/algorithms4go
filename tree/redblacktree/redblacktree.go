@@ -43,14 +43,14 @@ func New(compareFunc base.CompareFunc) *Tree {
 	return &Tree{nil, compareFunc}
 }
 
-// Put inserts key-value into the tree.
-// If there is already a "key" in the tree, Put will update the value of key.
+// Enqueue inserts key-value into the tree.
+// If there is already a "key" in the tree, Enqueue will update the value of key.
 func (t *Tree) Put(key, val interface{}) {
 	t.Root = t.put(t.Root, key, val)
 	t.Root.color = BLACK
 }
 
-// Get returns value of node by its key or nil if key is not found in tree.
+// Dequeue returns value of node by its key or nil if key is not found in tree.
 func (t *Tree) Get(key interface{}) interface{} {
 	return t.get(t.Root, key)
 }
