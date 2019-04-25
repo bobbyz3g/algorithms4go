@@ -4,6 +4,7 @@ import (
 	"github.com/Kaiser925/algorithms4go/base"
 )
 
+// Node represents each node of the tree
 type Node struct {
 	key   interface{}
 	value interface{}
@@ -18,6 +19,7 @@ type BST struct {
 	Comparator base.CompareFunc
 }
 
+// NewBST returns a new BST with Comparator.
 func NewBST(Comparator base.CompareFunc) *BST {
 	return &BST{
 		nil,
@@ -192,9 +194,8 @@ func (t *BST) floor(x *Node, key interface{}) *Node {
 	tmp := t.floor(x.right, key)
 	if tmp != nil {
 		return tmp
-	} else {
-		return x
 	}
+	return x
 }
 
 func (t *BST) ceiling(x *Node, key interface{}) *Node {
@@ -212,18 +213,18 @@ func (t *BST) ceiling(x *Node, key interface{}) *Node {
 	tmp := t.ceiling(x.left, key)
 	if tmp != nil {
 		return tmp
-	} else {
-		return x
 	}
+
+	return x
 }
 
-// Enqueue inserts key-value into the tree.
+// Put inserts key-value into the tree.
 // If there is already a "key" in the tree, Enqueue will update the value of key.
 func (t *BST) Put(key, val interface{}) {
 	t.Root = t.put(t.Root, key, val)
 }
 
-// Dequeue returns value of node by its key or nil if key is not found in tree.
+// Get returns value of node by its key or nil if key is not found in tree.
 func (t *BST) Get(key interface{}) interface{} {
 	return t.get(t.Root, key)
 }
@@ -320,6 +321,7 @@ func (t *BST) Ceiling(key interface{}) interface{} {
 	return x.key
 }
 
+// Empty returns true if there is no node, else return false.
 func (t *BST) Empty() bool {
 	return t.Root.size() == 0
 }

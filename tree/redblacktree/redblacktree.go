@@ -7,10 +7,13 @@ import (
 type color bool
 
 const (
-	RED   color = true
+	// RED represents whether it is a red node
+	RED color = true
+	// BLACK represents whether it is a black node
 	BLACK color = false
 )
 
+// Node represents the node of rbtree.
 type Node struct {
 	key   interface{}
 	value interface{}
@@ -34,23 +37,25 @@ func (x *Node) isRed() bool {
 	return x.color == RED
 }
 
+// Tree is the struct of red-black tree.
 type Tree struct {
 	Root       *Node
 	Comparator base.CompareFunc
 }
 
+// New returns new redblacktree with compareFunc.
 func New(compareFunc base.CompareFunc) *Tree {
 	return &Tree{nil, compareFunc}
 }
 
-// Enqueue inserts key-value into the tree.
+// Put inserts key-value into the tree.
 // If there is already a "key" in the tree, Enqueue will update the value of key.
 func (t *Tree) Put(key, val interface{}) {
 	t.Root = t.put(t.Root, key, val)
 	t.Root.color = BLACK
 }
 
-// Dequeue returns value of node by its key or nil if key is not found in tree.
+// Get returns value of node by its key or nil if key is not found in tree.
 func (t *Tree) Get(key interface{}) interface{} {
 	return t.get(t.Root, key)
 }
@@ -81,6 +86,7 @@ func (t *Tree) Delete(key interface{}) {
 	}
 }
 
+// DeleteMin deletes the min node.
 func (t *Tree) DeleteMin() {
 	if t.Empty() {
 		return
@@ -96,6 +102,7 @@ func (t *Tree) DeleteMin() {
 	}
 }
 
+// DeleteMax deletes the max node.
 func (t *Tree) DeleteMax() {
 	if t.Empty() {
 		return
@@ -443,9 +450,8 @@ func (t *Tree) floor(x *Node, key interface{}) *Node {
 	tmp := t.floor(x.right, key)
 	if tmp != nil {
 		return tmp
-	} else {
-		return x
 	}
+	return x
 }
 
 func (t *Tree) ceiling(x *Node, key interface{}) *Node {
@@ -463,7 +469,6 @@ func (t *Tree) ceiling(x *Node, key interface{}) *Node {
 	tmp := t.ceiling(x.left, key)
 	if tmp != nil {
 		return tmp
-	} else {
-		return x
 	}
+	return x
 }
