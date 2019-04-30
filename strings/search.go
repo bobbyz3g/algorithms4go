@@ -1,6 +1,7 @@
 package strings
 
-// BM returns index of the pattern string in the origin string, or -1 if no match.
+// BM returns index of the pattern string, if origin string contains pattern string,
+// or -1 if there is no match.
 // BM is an implemention of the Boyer-Moore algorithm.
 func BM(origin string, pattern string) (index int) {
 	index = -1
