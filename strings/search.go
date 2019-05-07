@@ -42,3 +42,38 @@ func BM(origin string, pattern string) (index int) {
 
 	return
 }
+
+// KMP returns index of the pattern string, if origin string contains pattern string,
+// or -1 if there is no match.
+// KMP is an implemention of the Knuth-Morris-Pratt algorithm.
+func KMP(origin string, pattern string) int {
+	m := len(pattern)
+	R := 256
+
+	dfa := make([][]int, R)
+	for i := range dfa {
+		dfa[i] = make([]int, m)
+	}
+
+	dfa[int(pattern[0])][0] = 1
+
+	for x, j := 0, 1; j < m; j++ {
+		for c := 0; c < R; c++ {
+			dfa[c][j] = dfa[c][x]
+		}
+
+		dfa[int(pattern[j])][j] = j + 1
+		x = dfa[int(pattern[j])][x]
+
+	}
+
+	n := len(origin)
+	var i, j int
+	for i, j = 0, 0; i < n && j < m; i++ {
+		j = dfa[int(origin[i])][j]
+	}
+	if j == m {
+		return i - m
+	}
+	return -1
+}
