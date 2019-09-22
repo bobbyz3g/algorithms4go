@@ -13,24 +13,23 @@ const (
 	BLACK color = false
 )
 
-// Node represents the node of rbtree.
-type Node struct {
+type node struct {
 	key   interface{}
 	value interface{}
-	left  *Node
-	right *Node
+	left  *node
+	right *node
 	n     int
 	color color
 }
 
-func (x *Node) size() int {
+func (x *node) size() int {
 	if x == nil {
 		return 0
 	}
 	return x.n
 }
 
-func (x *Node) isRed() bool {
+func (x *node) isRed() bool {
 	if x == nil {
 		return false
 	}
@@ -39,7 +38,7 @@ func (x *Node) isRed() bool {
 
 // Tree is the struct of red-black tree.
 type Tree struct {
-	Root       *Node
+	Root       *node
 	Comparator base.CompareFunc
 }
 
@@ -195,7 +194,7 @@ func (t *Tree) Empty() bool {
 	return t.Root.size() == 0
 }
 
-func (t *Tree) rotateLeft(h *Node) *Node {
+func (t *Tree) rotateLeft(h *node) *node {
 	x := h.right
 	h.right = x.left
 	x.left = h
@@ -206,7 +205,7 @@ func (t *Tree) rotateLeft(h *Node) *Node {
 	return x
 }
 
-func (t *Tree) rotateRight(h *Node) *Node {
+func (t *Tree) rotateRight(h *node) *node {
 	x := h.left
 	h.left = x.right
 	x.right = h
@@ -217,7 +216,7 @@ func (t *Tree) rotateRight(h *Node) *Node {
 	return x
 }
 
-func (t *Tree) flipColors(h *Node) {
+func (t *Tree) flipColors(h *node) {
 	h.color = !h.color
 	h.left.color = !h.left.color
 	h.right.color = !h.right.color
@@ -225,7 +224,7 @@ func (t *Tree) flipColors(h *Node) {
 
 // moveRedLeft assuming that h is red and both h.left and h.left.left
 // are black, make h.left or one of its children red.
-func (t *Tree) moveRedLeft(h *Node) *Node {
+func (t *Tree) moveRedLeft(h *node) *node {
 	t.flipColors(h)
 	if h.right.left.isRed() {
 		h.right = t.rotateRight(h.right)
@@ -237,7 +236,7 @@ func (t *Tree) moveRedLeft(h *Node) *Node {
 
 // moveRedRight assuming that h is red and both h.right and h.right.left
 // are black, make h.right or one of its children red.
-func (t *Tree) moveRedRight(h *Node) *Node {
+func (t *Tree) moveRedRight(h *node) *node {
 	t.flipColors(h)
 	if h.left.left.isRed() {
 		h = t.rotateRight(h)
@@ -246,7 +245,7 @@ func (t *Tree) moveRedRight(h *Node) *Node {
 	return h
 }
 
-func (t *Tree) balance(h *Node) *Node {
+func (t *Tree) balance(h *node) *node {
 	if h.right.isRed() {
 		h = t.rotateLeft(h)
 	}
@@ -260,7 +259,7 @@ func (t *Tree) balance(h *Node) *Node {
 	return h
 }
 
-func (t *Tree) deleteMin(h *Node) *Node {
+func (t *Tree) deleteMin(h *node) *node {
 	if h.left == nil {
 		return nil
 	}
@@ -271,7 +270,7 @@ func (t *Tree) deleteMin(h *Node) *Node {
 	return t.balance(h)
 }
 
-func (t *Tree) deleteMax(h *Node) *Node {
+func (t *Tree) deleteMax(h *node) *node {
 	if h.left.isRed() {
 		h = t.rotateRight(h)
 	}
@@ -288,21 +287,21 @@ func (t *Tree) deleteMax(h *Node) *Node {
 }
 
 // min returns the min node in tree.
-func (t *Tree) min(x *Node) *Node {
+func (t *Tree) min(x *node) *node {
 	if x.left == nil {
 		return x
 	}
 	return t.min(x.left)
 }
 
-func (t *Tree) max(x *Node) *Node {
+func (t *Tree) max(x *node) *node {
 	if x.right == nil {
 		return x
 	}
 	return t.max(x.right)
 }
 
-func (t *Tree) delete(h *Node, key interface{}) *Node {
+func (t *Tree) delete(h *node, key interface{}) *node {
 	if t.Comparator(key, h.key) < 0 {
 		if !h.left.isRed() && !h.left.left.isRed() {
 			h = t.moveRedLeft(h)
@@ -333,9 +332,9 @@ func (t *Tree) delete(h *Node, key interface{}) *Node {
 	return t.balance(h)
 }
 
-func (t *Tree) put(h *Node, key interface{}, val interface{}) *Node {
+func (t *Tree) put(h *node, key interface{}, val interface{}) *node {
 	if h == nil {
-		return &Node{
+		return &node{
 			key:   key,
 			value: val,
 			left:  nil,
@@ -370,7 +369,7 @@ func (t *Tree) put(h *Node, key interface{}, val interface{}) *Node {
 	return h
 }
 
-func (t *Tree) get(h *Node, key interface{}) interface{} {
+func (t *Tree) get(h *node, key interface{}) interface{} {
 	if h == nil {
 		return nil
 	}
@@ -385,7 +384,7 @@ func (t *Tree) get(h *Node, key interface{}) interface{} {
 	}
 }
 
-func (t *Tree) selects(x *Node, k int) interface{} {
+func (t *Tree) selects(x *node, k int) interface{} {
 	if x == nil {
 		return nil
 	}
@@ -400,7 +399,7 @@ func (t *Tree) selects(x *Node, k int) interface{} {
 	}
 }
 
-func (t *Tree) rank(x *Node, key interface{}) int {
+func (t *Tree) rank(x *node, key interface{}) int {
 	if x == nil {
 		return 0
 	}
@@ -415,7 +414,7 @@ func (t *Tree) rank(x *Node, key interface{}) int {
 	}
 }
 
-func (t *Tree) keysByIndex(x *Node, keys *[]interface{}, lo interface{}, hi interface{}, cur *int) {
+func (t *Tree) keysByIndex(x *node, keys *[]interface{}, lo interface{}, hi interface{}, cur *int) {
 	if x == nil {
 		return
 	}
@@ -436,7 +435,7 @@ func (t *Tree) keysByIndex(x *Node, keys *[]interface{}, lo interface{}, hi inte
 	}
 }
 
-func (t *Tree) floor(x *Node, key interface{}) *Node {
+func (t *Tree) floor(x *node, key interface{}) *node {
 	if x == nil {
 		return nil
 	}
@@ -454,7 +453,7 @@ func (t *Tree) floor(x *Node, key interface{}) *Node {
 	return x
 }
 
-func (t *Tree) ceiling(x *Node, key interface{}) *Node {
+func (t *Tree) ceiling(x *node, key interface{}) *node {
 	if x == nil {
 		return nil
 	}

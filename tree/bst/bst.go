@@ -4,18 +4,17 @@ import (
 	"github.com/Kaiser925/algorithms4go/base"
 )
 
-// Node represents each node of the tree
-type Node struct {
+type node struct {
 	key   interface{}
 	value interface{}
-	left  *Node
-	right *Node
+	left  *node
+	right *node
 	n     int //The total number of nodes in the subtree Rooted at this node.
 }
 
 // BST is a binary search tree.
 type BST struct {
-	Root       *Node
+	Root       *node
 	Comparator base.CompareFunc
 }
 
@@ -27,16 +26,16 @@ func NewBST(Comparator base.CompareFunc) *BST {
 	}
 }
 
-func (x *Node) size() int {
+func (x *node) size() int {
 	if x == nil {
 		return 0
 	}
 	return x.n
 }
 
-func (t *BST) put(x *Node, key, val interface{}) *Node {
+func (t *BST) put(x *node, key, val interface{}) *node {
 	if x == nil {
-		x = &Node{
+		x = &node{
 			key:   key,
 			value: val,
 			left:  nil,
@@ -56,7 +55,7 @@ func (t *BST) put(x *Node, key, val interface{}) *Node {
 	return x
 }
 
-func (t *BST) get(x *Node, key interface{}) interface{} {
+func (t *BST) get(x *node, key interface{}) interface{} {
 	if x == nil {
 		return nil
 	}
@@ -72,21 +71,21 @@ func (t *BST) get(x *Node, key interface{}) interface{} {
 }
 
 // min returns the min node in tree.
-func (t *BST) min(x *Node) *Node {
+func (t *BST) min(x *node) *node {
 	if x.left == nil {
 		return x
 	}
 	return t.min(x.left)
 }
 
-func (t *BST) max(x *Node) *Node {
+func (t *BST) max(x *node) *node {
 	if x.right == nil {
 		return x
 	}
 	return t.max(x.right)
 }
 
-func (t *BST) deleteMin(x *Node) *Node {
+func (t *BST) deleteMin(x *node) *node {
 	if x.left == nil {
 		return x.right
 	}
@@ -95,7 +94,7 @@ func (t *BST) deleteMin(x *Node) *Node {
 	return x
 }
 
-func (t *BST) deleteMax(x *Node) *Node {
+func (t *BST) deleteMax(x *node) *node {
 	if x.right == nil {
 		return x.left
 	}
@@ -104,7 +103,7 @@ func (t *BST) deleteMax(x *Node) *Node {
 	return x
 }
 
-func (t *BST) delete(x *Node, key interface{}) *Node {
+func (t *BST) delete(x *node, key interface{}) *node {
 	if x == nil {
 		return nil
 	}
@@ -129,7 +128,7 @@ func (t *BST) delete(x *Node, key interface{}) *Node {
 	return x
 }
 
-func (t *BST) selects(x *Node, k int) interface{} {
+func (t *BST) selects(x *node, k int) interface{} {
 	if x == nil {
 		return nil
 	}
@@ -144,7 +143,7 @@ func (t *BST) selects(x *Node, k int) interface{} {
 	}
 }
 
-func (t *BST) rank(x *Node, key interface{}) int {
+func (t *BST) rank(x *node, key interface{}) int {
 	if x == nil {
 		return 0
 	}
@@ -159,7 +158,7 @@ func (t *BST) rank(x *Node, key interface{}) int {
 	}
 }
 
-func (t *BST) keysByIndex(x *Node, keys *[]interface{}, lo interface{}, hi interface{}, cur *int) {
+func (t *BST) keysByIndex(x *node, keys *[]interface{}, lo interface{}, hi interface{}, cur *int) {
 	if x == nil {
 		return
 	}
@@ -180,7 +179,7 @@ func (t *BST) keysByIndex(x *Node, keys *[]interface{}, lo interface{}, hi inter
 	}
 }
 
-func (t *BST) floor(x *Node, key interface{}) *Node {
+func (t *BST) floor(x *node, key interface{}) *node {
 	if x == nil {
 		return nil
 	}
@@ -198,7 +197,7 @@ func (t *BST) floor(x *Node, key interface{}) *Node {
 	return x
 }
 
-func (t *BST) ceiling(x *Node, key interface{}) *Node {
+func (t *BST) ceiling(x *node, key interface{}) *node {
 	if x == nil {
 		return nil
 	}
