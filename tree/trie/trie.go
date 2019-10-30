@@ -2,6 +2,7 @@ package trie
 
 // RuneTrie is of runes.
 type RuneTrie struct {
+	size  int
 	value interface{}
 	next  map[rune]*RuneTrie
 }
@@ -26,6 +27,7 @@ func (t *RuneTrie) Put(key string, value interface{}) {
 		node = child
 	}
 	node.value = value
+	t.size++
 }
 
 // Get returns value by its key or nil if key is not found in tree.
@@ -40,8 +42,40 @@ func (t *RuneTrie) Get(key string) interface{} {
 	return node.value
 }
 
+type keyPath struct {
+	r    rune
+	node *RuneTrie
+}
+
 // Delete deletes the key and its value.
-func (t *RuneTrie) Delete(key string) {
+func (t *RuneTrie) Delete(key string) bool {
+	node := t
+	path := make([]keyPath, len(key))
+
+	for i, k := range key {
+		path[i] = keyPath{r: k, node: node}
+		node = node.next[k]
+
+		if node == nil {
+			return false // the key does not exsit.
+		}
+	}
+
+	node.value = nil
+
+	if len(node.next) == 0 {
+		for i := len(key) - 1; i >= 0; i-- {
+			preNode := path[i].node
+			r := path[i].r
+			delete(preNode.next, r)
+			if preNode.value != nil || len(preNode.next) > 0 {
+				break
+			}
+		}
+	}
+
+	t.size--
+	return true // success delete the key.
 }
 
 // Contains returns true if tree contains key or false if doesn't contain.
@@ -66,17 +100,7 @@ func (t *RuneTrie) LongestPrefixOf(str string) string {
 
 // Size returns the number of key-value.
 func (t *RuneTrie) Size() int {
-	node := t
-	cnt := 0
-
-	if node.value != nil {
-		cnt++
-	}
-
-	for k := range node.next {
-		cnt += node.next[k].Size()
-	}
-	return cnt
+	return t.size
 }
 
 // KeyWithPrefix returns all keys prefixed with str.
