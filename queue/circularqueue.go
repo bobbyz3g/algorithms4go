@@ -1,4 +1,4 @@
-package circularqueue
+package queue
 
 import "fmt"
 
@@ -18,7 +18,7 @@ type CircularQueue struct {
 	head  int
 }
 
-func New(cap int) *CircularQueue {
+func NewCircularQueue(cap int) *CircularQueue {
 	return &CircularQueue{
 		items: make([]interface{}, cap),
 		len:   0,

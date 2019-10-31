@@ -11,8 +11,8 @@ type Queue struct {
 	len   int
 }
 
-// New returns a queue.
-func New() *Queue {
+// NewQueue returns a queue.
+func NewQueue() *Queue {
 	return &Queue{
 		nil,
 		nil,

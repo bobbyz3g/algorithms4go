@@ -3,7 +3,7 @@ package queue
 import "testing"
 
 func TestQueue_Enqueue(t *testing.T) {
-	queue := New()
+	queue := NewQueue()
 	if actualValue := queue.Empty(); actualValue != true {
 		t.Errorf("Empty error: expected %v, got %v", actualValue, true)
 	}
@@ -23,7 +23,7 @@ func TestQueue_Enqueue(t *testing.T) {
 }
 
 func TestQueue_Dequeue(t *testing.T) {
-	queue := New()
+	queue := NewQueue()
 	queue.Enqueue(1)
 	queue.Enqueue(2)
 	queue.Enqueue(3)
@@ -44,7 +44,7 @@ func TestQueue_Dequeue(t *testing.T) {
 }
 
 func TestQueue_Iterator(t *testing.T) {
-	queue := New()
+	queue := NewQueue()
 	queue.Enqueue("a")
 	queue.Enqueue("b")
 	queue.Enqueue("c")

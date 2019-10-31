@@ -1,9 +1,9 @@
-package circularqueue
+package queue
 
 import "testing"
 
 func TestCircularQueue(t *testing.T) {
-	q := New(5)
+	q := NewCircularQueue(5)
 
 	if q.Dequeue() != nil {
 		t.Errorf("Dequeue Error: Empty queue shold get nil.")
