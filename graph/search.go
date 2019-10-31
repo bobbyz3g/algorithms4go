@@ -1,7 +1,7 @@
 package graph
 
 import (
-	"github.com/Kaiser925/algorithms4go/queue/queue"
+	"github.com/Kaiser925/algorithms4go/queue"
 	"github.com/Kaiser925/algorithms4go/stack"
 )
 
@@ -47,7 +47,7 @@ func (p *Paths) dfs(g *Graph, v int) {
 }
 
 func (p *Paths) bfs(g *Graph, s int) {
-	q := queue.New()
+	q := queue.NewQueue()
 	p.visited[s] = true
 	q.Enqueue(s)
 
