@@ -4,8 +4,8 @@ type Iterator struct {
 	current *Element
 }
 
-func (l *SingleLinkedList) Iterator() Iterator {
-	return Iterator{
+func (l *SingleLinkedList) Iterator() *Iterator {
+	return &Iterator{
 		l.head.next,
 	}
 }

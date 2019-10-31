@@ -5,8 +5,8 @@ type Iterator struct {
 }
 
 // Iterator returns a new iterator of bag.
-func (b *Bag) Iterator() Iterator {
-	return Iterator{current: b.first}
+func (b *Bag) Iterator() *Iterator {
+	return &Iterator{current: b.first}
 }
 
 // Value returns current value of iterator.

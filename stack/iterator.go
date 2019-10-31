@@ -4,8 +4,8 @@ type Iterator struct {
 	current *node
 }
 
-func (s *Stack) Iterator() Iterator {
-	return Iterator{
+func (s *Stack) Iterator() *Iterator {
+	return &Iterator{
 		current: s.top,
 	}
 }

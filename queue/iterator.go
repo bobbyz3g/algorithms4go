@@ -4,8 +4,8 @@ type Iterator struct {
 	current *node
 }
 
-func (q *Queue) Iterator() Iterator {
-	return Iterator{
+func (q *Queue) Iterator() *Iterator {
+	return &Iterator{
 		q.front,
 	}
 }
