@@ -26,6 +26,9 @@ func constructTestTrie(testInput map[string]string) *RuneTrie {
 }
 
 func TestPutAndGet(t *testing.T) {
+	tt := NewRuneTrie()
+
+	assert.Equal(t, 0, tt.Size())
 	trie := constructTestTrie(testInput)
 
 	if al, l := trie.Size(), len(testInput); al != l {
@@ -37,6 +40,7 @@ func TestPutAndGet(t *testing.T) {
 	}
 
 	assert.Equal(t, true, trie.Contains("Sells"))
+	assert.Equal(t, nil, trie.Get(""))
 }
 
 func TestDelete(t *testing.T) {
@@ -47,4 +51,46 @@ func TestDelete(t *testing.T) {
 	assert.Equal(t, len(testInput)-1, trie.Size())
 	assert.Equal(t, nil, trie.Get("Sells"))
 	assert.Equal(t, testInput["Sea"], trie.Get("Sea"))
+}
+
+func TestKeys(t *testing.T) {
+	trie := NewRuneTrie()
+
+	assert.Equal(t, true, trie.Keys().Empty())
+	trie.Put("a", 1)
+
+	keys := trie.Keys()
+	assert.Equal(t, 1, keys.Len())
+	k, _ := keys.Dequeue()
+	assert.Equal(t, "a", k)
+
+	trie = constructTestTrie(testInput)
+
+	keys = trie.Keys()
+
+	iter := keys.Iterator()
+
+	for iter.HasNext() {
+		key := iter.Value().(string)
+		_, has := testInput[key]
+		assert.Equal(t, true, has)
+	}
+}
+
+func TestKeyWithPrefix(t *testing.T) {
+	trie := constructTestTrie(testInput)
+
+	keys := trie.KeyWithPrefix("Se")
+	assert.Equal(t, 2, keys.Len())
+
+	for iter := keys.Iterator(); iter.HasNext(); {
+		if key := iter.Value().(string); key == "Sea" || key == "Sells" {
+
+		} else {
+			t.Error("KeyWithPrefix error")
+		}
+	}
+
+	keys = trie.KeyWithPrefix("Sellls")
+	assert.Equal(t, 0, keys.Len())
 }
