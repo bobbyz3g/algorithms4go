@@ -118,11 +118,6 @@ func (t *RuneTrie) IsEmpty() bool {
 	return t.size == 0
 }
 
-// LongestPrefixOf returns the longest key in the prefix of str.
-func (t *RuneTrie) LongestPrefixOf(str string) string {
-	return ""
-}
-
 // Size returns the number of key-value.
 func (t *RuneTrie) Size() int {
 	return t.size
@@ -137,10 +132,4 @@ func (t *RuneTrie) KeyWithPrefix(str string) *queue.Queue {
 	getkeys(node, pre, keys)
 
 	return keys
-}
-
-// KeyThatMatch returns the key matched with str.
-// Note: "."can match any keyboard.
-func (t *RuneTrie) KeyThatMatch(str string) *queue.Queue {
-	return nil
 }
