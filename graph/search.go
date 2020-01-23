@@ -35,7 +35,7 @@ func (g *Graph) BreadthFirstPaths(start int) *Paths {
 
 func (p *Paths) dfs(g *Graph, v int) {
 	p.visited[v] = true
-	iter := g.Iterator(v)
+	iter := g.Iter(v)
 
 	for iter.HasNext() {
 		w := iter.Value().(int)
@@ -54,7 +54,7 @@ func (p *Paths) bfs(g *Graph, s int) {
 	for !q.Empty() {
 		vi, _ := q.Dequeue()
 		v := vi.(int)
-		iter := g.Iterator(v)
+		iter := g.Iter(v)
 
 		for iter.HasNext() {
 			w := iter.Value().(int)
@@ -115,7 +115,7 @@ func (cc *CC) dfs(g *Graph, v int) {
 	cc.visited[v] = true
 	cc.id[v] = cc.count
 
-	iter := g.Iterator(v)
+	iter := g.Iter(v)
 
 	for iter.HasNext() {
 		w := iter.Value().(int)

@@ -1,10 +1,11 @@
 package queue
 
+// Iterator implements iterator for linkedlist.
 type Iterator struct {
 	current *node
 }
 
-func (q *Queue) Iterator() *Iterator {
+func (q *Queue) Iter() *Iterator {
 	return &Iterator{
 		q.front,
 	}

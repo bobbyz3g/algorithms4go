@@ -19,7 +19,7 @@ func TestBag_Add(t *testing.T) {
 
 func TestBag_Iterator(t *testing.T) {
 	bag := New()
-	iter1 := bag.Iterator()
+	iter1 := bag.Iter()
 
 	if i := iter1.HasNext(); i {
 		t.Errorf("HasNext Error: excepted %v, got %v", false, i)
@@ -29,7 +29,7 @@ func TestBag_Iterator(t *testing.T) {
 		bag.Add(i)
 	}
 
-	iter2 := bag.Iterator()
+	iter2 := bag.Iter()
 
 	j := 9
 	for iter2.HasNext() {

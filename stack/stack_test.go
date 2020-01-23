@@ -50,7 +50,7 @@ func TestStack_Iterator(t *testing.T) {
 		s.Push(i)
 	}
 
-	iter := s.Iterator()
+	iter := s.Iter()
 	j := 1
 	for iter.HasNext() {
 		if v := iter.Value(); v != j {

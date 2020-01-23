@@ -68,7 +68,7 @@ func TestKeys(t *testing.T) {
 
 	keys = trie.Keys()
 
-	iter := keys.Iterator()
+	iter := keys.Iter()
 
 	for iter.HasNext() {
 		key := iter.Value().(string)
@@ -83,7 +83,7 @@ func TestKeyWithPrefix(t *testing.T) {
 	keys := trie.KeyWithPrefix("Se")
 	assert.Equal(t, 2, keys.Len())
 
-	for iter := keys.Iterator(); iter.HasNext(); {
+	for iter := keys.Iter(); iter.HasNext(); {
 		if key := iter.Value().(string); key == "Sea" || key == "Sells" {
 
 		} else {

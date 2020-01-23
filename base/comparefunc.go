@@ -21,7 +21,7 @@ func IntCompareFunc(a, b interface{}) int {
 	}
 }
 
-// FloatCompareFunc privates a function to compare two float64 interface.
+// Float64CompareFunc privates a function to compare two float64 interface.
 func Float64CompareFunc(a, b interface{}) int {
 	floatA := a.(float64)
 	floatB := b.(float64)

@@ -49,7 +49,7 @@ func TestQueue_Iterator(t *testing.T) {
 	queue.Enqueue("b")
 	queue.Enqueue("c")
 
-	iter := queue.Iterator()
+	iter := queue.Iter()
 
 	index := 1
 	for iter.HasNext() {

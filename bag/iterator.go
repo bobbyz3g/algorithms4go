@@ -1,11 +1,12 @@
 package bag
 
+// Iterator implements Iterator for Bag.
 type Iterator struct {
 	current *node
 }
 
-// Iterator returns a new iterator of bag.
-func (b *Bag) Iterator() *Iterator {
+// Iter returns a new iterator of bag.
+func (b *Bag) Iter() *Iterator {
 	return &Iterator{current: b.first}
 }
 

@@ -1,10 +1,11 @@
 package linkedlist
 
+// Iterator implements iterator for linkedlist.
 type Iterator struct {
 	current *Element
 }
 
-func (l *SingleLinkedList) Iterator() *Iterator {
+func (l *SingleLinkedList) Iter() *Iterator {
 	return &Iterator{
 		l.head.next,
 	}

@@ -70,7 +70,7 @@ func TestGraph_Iterator(t *testing.T) {
 	}
 
 	for i := range g.adj {
-		iter := g.Iterator(i)
+		iter := g.Iter(i)
 
 		j := 0
 		for iter.HasNext() {
@@ -120,7 +120,7 @@ func TestGraph_DepthFirstPaths(t *testing.T) {
 	paths := g.DepthFirstPaths(0)
 	for v := 0; v < g.Vs(); v++ {
 		if paths.HasPathTo(v) {
-			iter := paths.PathTo(v).Iterator()
+			iter := paths.PathTo(v).Iter()
 			j := 0
 			for iter.HasNext() {
 				if val := iter.Value().(int); val != dfspaths[v][j] {
@@ -140,7 +140,7 @@ func TestGraph_BreadthFirstPaths(t *testing.T) {
 	paths := g.BreadthFirstPaths(0)
 	for v := 0; v < g.Vs(); v++ {
 		if paths.HasPathTo(v) {
-			iter := paths.PathTo(v).Iterator()
+			iter := paths.PathTo(v).Iter()
 			j := 0
 			for iter.HasNext() {
 				if val := iter.Value().(int); val != bfspaths[v][j] {
@@ -177,7 +177,7 @@ func TestGraph_ConnectedComponent(t *testing.T) {
 	}
 
 	for i := 0; i < m; i++ {
-		iter := coms[i].Iterator()
+		iter := coms[i].Iter()
 		j := 0
 		for iter.HasNext() {
 			if val := iter.Value().(int); val != ccs[i][j] {

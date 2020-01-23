@@ -1,10 +1,11 @@
 package stack
 
+// Iterator implements iterator for linkedlist.
 type Iterator struct {
 	current *node
 }
 
-func (s *Stack) Iterator() *Iterator {
+func (s *Stack) Iter() *Iterator {
 	return &Iterator{
 		current: s.top,
 	}
