@@ -78,7 +78,7 @@ func TestSingleLinkedList_Iterator(t *testing.T) {
 	j := 1
 	iter := l.Iter()
 	for iter.HasNext() {
-		val := iter.Value()
+		val, _ := iter.Value()
 		switch j {
 		case 1:
 			if val != "a" {

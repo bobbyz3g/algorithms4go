@@ -71,8 +71,8 @@ func TestKeys(t *testing.T) {
 	iter := keys.Iter()
 
 	for iter.HasNext() {
-		key := iter.Value().(string)
-		_, has := testInput[key]
+		key, _ := iter.Value()
+		_, has := testInput[key.(string)]
 		assert.Equal(t, true, has)
 	}
 }
@@ -84,7 +84,7 @@ func TestKeyWithPrefix(t *testing.T) {
 	assert.Equal(t, 2, keys.Len())
 
 	for iter := keys.Iter(); iter.HasNext(); {
-		if key := iter.Value().(string); key == "Sea" || key == "Sells" {
+		if key, _ := iter.Value(); key.(string) == "Sea" || key.(string) == "Sells" {
 
 		} else {
 			t.Error("KeyWithPrefix error")

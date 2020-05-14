@@ -74,7 +74,7 @@ func TestGraph_Iterator(t *testing.T) {
 
 		j := 0
 		for iter.HasNext() {
-			if item := iter.Value(); item != adjs[i][j] {
+			if item, _ := iter.Value(); item != adjs[i][j] {
 				t.Errorf("Iterator error: excepted %v, got %v", adjs[i][j], item)
 			}
 			j++
@@ -123,7 +123,7 @@ func TestGraph_DepthFirstPaths(t *testing.T) {
 			iter := paths.PathTo(v).Iter()
 			j := 0
 			for iter.HasNext() {
-				if val := iter.Value().(int); val != dfspaths[v][j] {
+				if val, _ := iter.Value(); val.(int) != dfspaths[v][j] {
 					t.Errorf("DFS error: excepted %v, got %v", dfspaths[v][j], val)
 				}
 				j++
@@ -143,7 +143,7 @@ func TestGraph_BreadthFirstPaths(t *testing.T) {
 			iter := paths.PathTo(v).Iter()
 			j := 0
 			for iter.HasNext() {
-				if val := iter.Value().(int); val != bfspaths[v][j] {
+				if val, _ := iter.Value(); val.(int) != bfspaths[v][j] {
 					t.Errorf("DFS error: excepted %v, got %v", dfspaths[v][j], val)
 				}
 				j++
@@ -180,7 +180,7 @@ func TestGraph_ConnectedComponent(t *testing.T) {
 		iter := coms[i].Iter()
 		j := 0
 		for iter.HasNext() {
-			if val := iter.Value().(int); val != ccs[i][j] {
+			if val, _ := iter.Value(); val.(int) != ccs[i][j] {
 				t.Errorf("CC error: excepted %v, got %v", ccs[i][j], val)
 			}
 			j++

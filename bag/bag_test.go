@@ -33,7 +33,7 @@ func TestBag_Iterator(t *testing.T) {
 
 	j := 9
 	for iter2.HasNext() {
-		if item := iter2.Value(); item != j {
+		if item, _ := iter2.Value(); item != j {
 			t.Errorf("Next Error: excepted %v, got %v", j, item)
 		}
 		j--

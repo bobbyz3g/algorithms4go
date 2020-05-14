@@ -38,10 +38,11 @@ func (p *Paths) dfs(g *Graph, v int) {
 	iter := g.Iter(v)
 
 	for iter.HasNext() {
-		w := iter.Value().(int)
-		if !p.visited[w] {
-			p.edgeTo[w] = v
-			p.dfs(g, w)
+		w, _ := iter.Value()
+		index := w.(int)
+		if !p.visited[index] {
+			p.edgeTo[index] = v
+			p.dfs(g, index)
 		}
 	}
 }
@@ -57,11 +58,12 @@ func (p *Paths) bfs(g *Graph, s int) {
 		iter := g.Iter(v)
 
 		for iter.HasNext() {
-			w := iter.Value().(int)
-			if !p.visited[w] {
-				p.edgeTo[w] = v
-				p.visited[w] = true
-				q.Enqueue(w)
+			w, _ := iter.Value()
+			index := w.(int)
+			if !p.visited[index] {
+				p.edgeTo[index] = v
+				p.visited[index] = true
+				q.Enqueue(index)
 			}
 		}
 	}
@@ -118,9 +120,10 @@ func (cc *CC) dfs(g *Graph, v int) {
 	iter := g.Iter(v)
 
 	for iter.HasNext() {
-		w := iter.Value().(int)
-		if !cc.visited[w] {
-			cc.dfs(g, w)
+		w, _ := iter.Value()
+		index := w.(int)
+		if !cc.visited[index] {
+			cc.dfs(g, index)
 		}
 	}
 }

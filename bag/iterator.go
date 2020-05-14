@@ -11,10 +11,13 @@ func (b *Bag) Iter() *Iterator {
 }
 
 // Value returns current value of iterator.
-func (i *Iterator) Value() interface{} {
+func (i *Iterator) Value() (interface{}, error) {
+	if i.current == nil {
+		return nil, nil
+	}
 	item := i.current.item
 	i.current = i.current.next
-	return item
+	return item, nil
 }
 
 // HasNext returns true if iterator has next value, or false if iterator has not,

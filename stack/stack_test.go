@@ -53,7 +53,7 @@ func TestStack_Iterator(t *testing.T) {
 	iter := s.Iter()
 	j := 1
 	for iter.HasNext() {
-		if v := iter.Value(); v != j {
+		if v, _ := iter.Value(); v != j {
 			t.Errorf("Iterator Error: excepted %v, got %v", j, v)
 		}
 		j++

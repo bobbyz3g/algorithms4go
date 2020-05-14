@@ -53,7 +53,7 @@ func TestQueue_Iterator(t *testing.T) {
 
 	index := 1
 	for iter.HasNext() {
-		val := iter.Value()
+		val, _ := iter.Value()
 		switch index {
 		case 1:
 			if val != "a" {
