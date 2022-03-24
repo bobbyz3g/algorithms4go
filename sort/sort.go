@@ -1,7 +1,9 @@
 package sort
 
+import "github.com/Kaiser925/algorithms4go/constraints"
+
 // BubbleSort sorts slice by using bubble sort.
-func BubbleSort(a []int) {
+func BubbleSort[T constraints.Ordered](a []T) {
 	n := len(a)
 	if n <= 1 {
 		return
@@ -26,7 +28,7 @@ func BubbleSort(a []int) {
 }
 
 // InsertionSort sorts slice by using insertion sort.
-func InsertionSort(a []int) {
+func InsertionSort[T constraints.Ordered](a []T) {
 	n := len(a)
 
 	if n <= 1 {
@@ -48,7 +50,7 @@ func InsertionSort(a []int) {
 }
 
 // SelectionSort sorts slice by using selection sort.
-func SelectionSort(a []int) {
+func SelectionSort[T constraints.Ordered](a []T) {
 	n := len(a)
 	if n <= 1 {
 		return
@@ -67,8 +69,8 @@ func SelectionSort(a []int) {
 }
 
 // merge array
-func merge(a []int, start, mid, end int) {
-	temp := make([]int, len(a))
+func merge[T constraints.Ordered](a []T, start, mid, end int) {
+	temp := make([]T, len(a))
 
 	i := start
 	j := mid + 1
@@ -91,7 +93,7 @@ func merge(a []int, start, mid, end int) {
 	}
 }
 
-func mergeSort(a []int, start int, end int) {
+func mergeSort[T constraints.Ordered](a []T, start int, end int) {
 	if start >= end {
 		return
 	}
@@ -104,11 +106,11 @@ func mergeSort(a []int, start int, end int) {
 	merge(a, start, mid, end)
 }
 
-func MergeSort(a []int) {
+func MergeSort[T constraints.Ordered](a []T) {
 	mergeSort(a, 0, len(a)-1)
 }
 
-func partition(a []int, lo, hi int) int {
+func partition[T constraints.Ordered](a []T, lo, hi int) int {
 	pivot := a[hi]
 
 	i := lo
@@ -122,7 +124,7 @@ func partition(a []int, lo, hi int) int {
 	return i
 }
 
-func quickSort(a []int, start, end int) {
+func quickSort[T constraints.Ordered](a []T, start, end int) {
 	if start >= end {
 		return
 	}
@@ -132,19 +134,19 @@ func quickSort(a []int, start, end int) {
 }
 
 // QuickSort sorts the slice by using quick sort.
-func QuickSort(a []int) {
+func QuickSort[T constraints.Ordered](a []T) {
 	quickSort(a, 0, len(a)-1)
 }
 
 // CountingSort sorts the slice by using counting sort.
 // Element in slice should be nonnegative integer.
-func CountingSort(a []int) {
+func CountingSort[T constraints.Unsigned](a []T) {
 	n := len(a)
 	if n <= 1 {
 		return
 	}
 
-	var max = a[0]
+	var max T = a[0]
 
 	for _, i := range a {
 		if i > max {
@@ -152,17 +154,18 @@ func CountingSort(a []int) {
 		}
 	}
 
-	c := make([]int, max+1)
+	c := make([]T, max+1)
 
 	for _, i := range a {
 		c[i]++
 	}
 
-	for i := 1; i <= max; i++ {
+	var i T = 1
+	for i = 1; i <= max; i++ {
 		c[i] = c[i-1] + c[i]
 	}
 
-	r := make([]int, n)
+	r := make([]T, n)
 
 	for i := n - 1; i >= 0; i-- {
 		index := c[a[i]] - 1
