@@ -96,11 +96,11 @@ func (t *RuneTrie) Contains(key string) bool {
 }
 
 // Keys returns a Queue<string>
-func (t *RuneTrie) Keys() *queue.Queue {
+func (t *RuneTrie) Keys() *queue.Queue[string] {
 	return t.KeyWithPrefix("")
 }
 
-func getkeys(t *RuneTrie, pre string, keys *queue.Queue) {
+func getkeys(t *RuneTrie, pre string, keys *queue.Queue[string]) {
 	if t == nil {
 		return
 	}
@@ -124,8 +124,8 @@ func (t *RuneTrie) Size() int {
 }
 
 // KeyWithPrefix returns all keys prefixed with str.
-func (t *RuneTrie) KeyWithPrefix(str string) *queue.Queue {
-	keys := queue.NewQueue()
+func (t *RuneTrie) KeyWithPrefix(str string) *queue.Queue[string] {
+	keys := queue.NewQueue[string]()
 	pre := str
 	node := t.get(pre)
 

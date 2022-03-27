@@ -48,13 +48,13 @@ func (p *Paths) dfs(g *Graph, v int) {
 }
 
 func (p *Paths) bfs(g *Graph, s int) {
-	q := queue.NewQueue()
+	q := queue.NewQueue[int]()
 	p.visited[s] = true
 	q.Enqueue(s)
 
 	for !q.Empty() {
 		vi, _ := q.Dequeue()
-		v := vi.(int)
+		v := vi
 		iter := g.Iter(v)
 
 		for iter.HasNext() {
