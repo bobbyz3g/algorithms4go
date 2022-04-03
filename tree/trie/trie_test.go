@@ -15,8 +15,8 @@ var testInput = map[string]string{
 	"Shells": "Shells",
 }
 
-func constructTestTrie(testInput map[string]string) *RuneTrie {
-	trie := NewRuneTrie()
+func constructTestTrie(testInput map[string]string) *RuneTrie[string] {
+	trie := NewRuneTrie[string]()
 
 	for k, v := range testInput {
 		trie.Put(k, v)
@@ -26,7 +26,7 @@ func constructTestTrie(testInput map[string]string) *RuneTrie {
 }
 
 func TestPutAndGet(t *testing.T) {
-	tt := NewRuneTrie()
+	tt := NewRuneTrie[string]()
 
 	assert.Equal(t, 0, tt.Size())
 	trie := constructTestTrie(testInput)
@@ -36,11 +36,13 @@ func TestPutAndGet(t *testing.T) {
 	}
 
 	for k, v := range testInput {
-		assert.Equal(t, v, trie.Get(k))
+		got, _ := trie.Get(k)
+		assert.Equal(t, v, got)
 	}
 
 	assert.Equal(t, true, trie.Contains("Sells"))
-	assert.Equal(t, nil, trie.Get(""))
+	_, ok := trie.Get("")
+	assert.Equal(t, false, ok)
 }
 
 func TestDelete(t *testing.T) {
@@ -49,15 +51,17 @@ func TestDelete(t *testing.T) {
 	assert.Equal(t, true, trie.Delete("Sells"))
 	assert.Equal(t, false, trie.Delete("Sells"))
 	assert.Equal(t, len(testInput)-1, trie.Size())
-	assert.Equal(t, nil, trie.Get("Sells"))
-	assert.Equal(t, testInput["Sea"], trie.Get("Sea"))
+	v, _ := trie.Get("Sells")
+	assert.Equal(t, "", v)
+	vs, _ := trie.Get("Sea")
+	assert.Equal(t, testInput["Sea"], vs)
 }
 
 func TestKeys(t *testing.T) {
-	trie := NewRuneTrie()
+	trie := NewRuneTrie[string]()
 
 	assert.Equal(t, true, trie.Keys().Empty())
-	trie.Put("a", 1)
+	trie.Put("a", "1")
 
 	keys := trie.Keys()
 	assert.Equal(t, 1, keys.Len())
