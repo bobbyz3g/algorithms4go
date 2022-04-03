@@ -3,17 +3,17 @@ package stack
 import "testing"
 
 func TestStack(t *testing.T) {
-	s := New()
+	s := New[int]()
 
 	if s.Len() != 0 {
 		t.Errorf("Length of empty stack should be 0.")
 	}
 
-	if s.Peek() != nil {
+	if s.Peek() != 0 {
 		t.Errorf("Empty stack should peek nil.")
 	}
 
-	if s.Pop() != nil {
+	if s.Pop() != 0 {
 		t.Errorf("Empty stack should pop nil.")
 	}
 
@@ -23,28 +23,28 @@ func TestStack(t *testing.T) {
 		t.Errorf("Length should be 1.")
 	}
 
-	if s.Peek().(int) != 1 {
+	if s.Peek() != 1 {
 		t.Errorf("Top item should be 1.")
 	}
 
-	if s.Pop().(int) != 1 {
+	if s.Pop() != 1 {
 		t.Errorf("Stack should pop 1.")
 	}
 
 	s.Push(2)
 	s.Push(3)
 
-	if s.Peek().(int) != 3 {
+	if s.Peek() != 3 {
 		t.Errorf("Top item should be 3.")
 	}
 
-	if s.Pop().(int) != 3 {
+	if s.Pop() != 3 {
 		t.Errorf("Stack should pop 3.")
 	}
 }
 
 func TestStack_Iterator(t *testing.T) {
-	s := New()
+	s := New[int]()
 
 	for i := 10; i > 0; i-- {
 		s.Push(i)

@@ -75,11 +75,11 @@ func (p *Paths) HasPathTo(v int) bool {
 }
 
 // PathTo returns a stack stored path to v, or nil if there was no path from start to v.
-func (p *Paths) PathTo(v int) *stack.Stack {
+func (p *Paths) PathTo(v int) *stack.Stack[int] {
 	if !p.HasPathTo(v) {
 		return nil
 	}
-	path := stack.New()
+	path := stack.New[int]()
 
 	for x := v; x != p.start; x = p.edgeTo[x] {
 		path.Push(x)

@@ -123,7 +123,7 @@ func TestGraph_DepthFirstPaths(t *testing.T) {
 			iter := paths.PathTo(v).Iter()
 			j := 0
 			for iter.HasNext() {
-				if val, _ := iter.Value(); val.(int) != dfspaths[v][j] {
+				if val, _ := iter.Value(); val != dfspaths[v][j] {
 					t.Errorf("DFS error: excepted %v, got %v", dfspaths[v][j], val)
 				}
 				j++
@@ -143,7 +143,7 @@ func TestGraph_BreadthFirstPaths(t *testing.T) {
 			iter := paths.PathTo(v).Iter()
 			j := 0
 			for iter.HasNext() {
-				if val, _ := iter.Value(); val.(int) != bfspaths[v][j] {
+				if val, _ := iter.Value(); val != bfspaths[v][j] {
 					t.Errorf("DFS error: excepted %v, got %v", dfspaths[v][j], val)
 				}
 				j++
