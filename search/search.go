@@ -1,8 +1,10 @@
 package search
 
+import "github.com/Kaiser925/algorithms4go/constraints"
+
 // BinarySearch finds the index of first target value element in slice.
 // If there is no target value element, return -1.
-func BinarySearch(a []int, target int) int {
+func BinarySearch[T constraints.Ordered](a []T, target T) int {
 	n := len(a)
 	lo := 0
 	hi := n - 1
@@ -22,9 +24,9 @@ func BinarySearch(a []int, target int) int {
 	return -1
 }
 
-// BinarySearch finds the index of last target value element in slice.
+// BinarySearchLast finds the index of last target value element in slice.
 // If there is no target value element, return -1.
-func BinarySearchLast(a []int, target int) int {
+func BinarySearchLast[T constraints.Integer | constraints.Float](a []T, target T) int {
 	n := len(a)
 	lo := 0
 	hi := n - 1
