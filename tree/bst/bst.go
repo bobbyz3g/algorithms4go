@@ -4,38 +4,38 @@ import (
 	"github.com/Kaiser925/algorithms4go/base"
 )
 
-type node struct {
-	key   interface{}
-	value interface{}
-	left  *node
-	right *node
+type node[K any, V any] struct {
+	key   K
+	value V
+	left  *node[K, V]
+	right *node[K, V]
 	n     int //The total number of nodes in the subtree Rooted at this node.
 }
 
 // BST is a binary search tree.
-type BST struct {
-	Root       *node
+type BST[K, V any] struct {
+	Root       *node[K, V]
 	Comparator base.CompareFunc
 }
 
 // NewBST returns a new BST with Comparator.
-func NewBST(Comparator base.CompareFunc) *BST {
-	return &BST{
+func NewBST[K, V any](Comparator base.CompareFunc) *BST[K, V] {
+	return &BST[K, V]{
 		nil,
 		Comparator,
 	}
 }
 
-func (x *node) size() int {
+func (x *node[K, V]) size() int {
 	if x == nil {
 		return 0
 	}
 	return x.n
 }
 
-func (t *BST) put(x *node, key, val interface{}) *node {
+func (t *BST[K, V]) put(x *node[K, V], key K, val V) *node[K, V] {
 	if x == nil {
-		x = &node{
+		x = &node[K, V]{
 			key:   key,
 			value: val,
 			left:  nil,
@@ -55,9 +55,10 @@ func (t *BST) put(x *node, key, val interface{}) *node {
 	return x
 }
 
-func (t *BST) get(x *node, key interface{}) interface{} {
+func (t *BST[K, V]) get(x *node[K, V], key K) V {
 	if x == nil {
-		return nil
+		var noop V
+		return noop
 	}
 	cmp := t.Comparator(key, x.key)
 
@@ -71,21 +72,21 @@ func (t *BST) get(x *node, key interface{}) interface{} {
 }
 
 // min returns the min node in tree.
-func (t *BST) min(x *node) *node {
+func (t *BST[K, V]) min(x *node[K, V]) *node[K, V] {
 	if x.left == nil {
 		return x
 	}
 	return t.min(x.left)
 }
 
-func (t *BST) max(x *node) *node {
+func (t *BST[K, V]) max(x *node[K, V]) *node[K, V] {
 	if x.right == nil {
 		return x
 	}
 	return t.max(x.right)
 }
 
-func (t *BST) deleteMin(x *node) *node {
+func (t *BST[K, V]) deleteMin(x *node[K, V]) *node[K, V] {
 	if x.left == nil {
 		return x.right
 	}
@@ -94,7 +95,7 @@ func (t *BST) deleteMin(x *node) *node {
 	return x
 }
 
-func (t *BST) deleteMax(x *node) *node {
+func (t *BST[K, V]) deleteMax(x *node[K, V]) *node[K, V] {
 	if x.right == nil {
 		return x.left
 	}
@@ -103,7 +104,7 @@ func (t *BST) deleteMax(x *node) *node {
 	return x
 }
 
-func (t *BST) delete(x *node, key interface{}) *node {
+func (t *BST[K, V]) delete(x *node[K, V], key K) *node[K, V] {
 	if x == nil {
 		return nil
 	}
@@ -128,9 +129,10 @@ func (t *BST) delete(x *node, key interface{}) *node {
 	return x
 }
 
-func (t *BST) selects(x *node, k int) interface{} {
+func (t *BST[K, V]) selects(x *node[K, V], k int) K {
 	if x == nil {
-		return nil
+		var noop K
+		return noop
 	}
 
 	n := x.left.size()
@@ -143,7 +145,7 @@ func (t *BST) selects(x *node, k int) interface{} {
 	}
 }
 
-func (t *BST) rank(x *node, key interface{}) int {
+func (t *BST[K, V]) rank(x *node[K, V], key K) int {
 	if x == nil {
 		return 0
 	}
@@ -158,7 +160,7 @@ func (t *BST) rank(x *node, key interface{}) int {
 	}
 }
 
-func (t *BST) keysByIndex(x *node, keys *[]interface{}, lo interface{}, hi interface{}, cur *int) {
+func (t *BST[K, V]) keysByIndex(x *node[K, V], keys []K, lo K, hi K, cur *int) {
 	if x == nil {
 		return
 	}
@@ -170,7 +172,7 @@ func (t *BST) keysByIndex(x *node, keys *[]interface{}, lo interface{}, hi inter
 	}
 
 	if cmplo <= 0 && cmphi >= 0 {
-		(*keys)[*cur] = x.key
+		keys[*cur] = x.key
 		*cur++
 	}
 
@@ -179,7 +181,7 @@ func (t *BST) keysByIndex(x *node, keys *[]interface{}, lo interface{}, hi inter
 	}
 }
 
-func (t *BST) floor(x *node, key interface{}) *node {
+func (t *BST[K, V]) floor(x *node[K, V], key K) *node[K, V] {
 	if x == nil {
 		return nil
 	}
@@ -197,7 +199,7 @@ func (t *BST) floor(x *node, key interface{}) *node {
 	return x
 }
 
-func (t *BST) ceiling(x *node, key interface{}) *node {
+func (t *BST[K, V]) ceiling(x *node[K, V], key K) *node[K, V] {
 	if x == nil {
 		return nil
 	}
@@ -219,49 +221,53 @@ func (t *BST) ceiling(x *node, key interface{}) *node {
 
 // Put inserts key-value into the tree.
 // If there is already a "key" in the tree, Enqueue will update the value of key.
-func (t *BST) Put(key, val interface{}) {
+func (t *BST[K, V]) Put(key K, val V) {
 	t.Root = t.put(t.Root, key, val)
 }
 
 // Get returns value of node by its key or nil if key is not found in tree.
-func (t *BST) Get(key interface{}) interface{} {
+func (t *BST[K, V]) Get(key K) V {
 	return t.get(t.Root, key)
 }
 
+// TODO:
 // Contains returns true if tree contains key or false if doesn't contain.
-func (t *BST) Contains(key interface{}) bool {
-	return t.Get(key) != nil
-}
+//func (t *BST[K, V]) Contains(key K) bool {
+//	var noop V
+//	return t.Get(key) != noop
+//}
 
 // Delete deletes node from tree by key.
-func (t *BST) Delete(key interface{}) {
+func (t *BST[K, V]) Delete(key K) {
 	t.Root = t.delete(t.Root, key)
 }
 
 // DeleteMin deletes min node of tree.
-func (t *BST) DeleteMin() {
+func (t *BST[K, V]) DeleteMin() {
 	t.Root = t.deleteMin(t.Root)
 }
 
 // DeleteMax deletes max node of tree.
-func (t *BST) DeleteMax() {
+func (t *BST[K, V]) DeleteMax() {
 	t.Root = t.deleteMax(t.Root)
 }
 
-// Min returns the min value in tree.
-func (t *BST) Min() interface{} {
+// Min returns the min key in tree.
+func (t *BST[K, V]) Min() K {
 	x := t.min(t.Root)
 	if x == nil {
-		return nil
+		var noop K
+		return noop
 	}
 	return x.key
 }
 
-// Max returns the max value in tree.
-func (t *BST) Max() interface{} {
+// Max returns the max key in tree.
+func (t *BST[K, V]) Max() K {
 	x := t.max(t.Root)
 	if x == nil {
-		return nil
+		var noop K
+		return noop
 	}
 	return x.key
 }
@@ -269,58 +275,63 @@ func (t *BST) Max() interface{} {
 // Select returns the key in the symbol table whose rank is k.
 // This is the (k+1)st smallest key in the symbol table.
 // t.Select(k) == Keys[k]
-func (t *BST) Select(k int) interface{} {
+func (t *BST[K, V]) Select(k int) K {
 	if k < 0 || k > t.Size() {
-		return nil
+		var noop K
+		return noop
 	}
 	return t.selects(t.Root, k)
 }
 
+// TODO:
 // Rank returns the number of keys in the symbol table strictly less than input key.
-func (t *BST) Rank(key interface{}) int {
-	if key == nil {
-		return -1
-	}
-	return t.rank(t.Root, key)
-}
+//func (t *BST[K, V]) Rank(key K) int {
+//	var noop K
+//	if key == noop {
+//		return -1
+//	}
+//	return t.rank(t.Root, key)
+//}
 
 // Size returns number of nodes in the tree.
-func (t *BST) Size() int {
+func (t *BST[K, V]) Size() int {
 	return t.Root.size()
 }
 
 // Keys returns all keys in order.
-func (t *BST) Keys() []interface{} {
+func (t *BST[K, V]) Keys() []K {
 	return t.KeysByIndex(t.Min(), t.Max())
 }
 
 // KeysByIndex returns all keys between "lo" and "hi" in order.
-func (t *BST) KeysByIndex(lo, hi interface{}) []interface{} {
-	keys := make([]interface{}, t.Root.size())
+func (t *BST[K, V]) KeysByIndex(lo, hi K) []K {
+	keys := make([]K, t.Root.size())
 	cur := 0
-	t.keysByIndex(t.Root, &keys, lo, hi, &cur)
+	t.keysByIndex(t.Root, keys, lo, hi, &cur)
 	return keys
 }
 
 // Floor returns floor key of the input key, or nil if no floor is found.
-func (t *BST) Floor(key interface{}) interface{} {
+func (t *BST[K, V]) Floor(key K) K {
 	x := t.floor(t.Root, key)
 	if x == nil {
-		return nil
+		var noop K
+		return noop
 	}
 	return x.key
 }
 
 // Ceiling returns ceiling key of the input key, or nil if no ceiling is found.
-func (t *BST) Ceiling(key interface{}) interface{} {
+func (t *BST[K, V]) Ceiling(key K) K {
 	x := t.ceiling(t.Root, key)
 	if x == nil {
-		return nil
+		var noop K
+		return noop
 	}
 	return x.key
 }
 
 // Empty returns true if there is no node, else return false.
-func (t *BST) Empty() bool {
+func (t *BST[K, V]) Empty() bool {
 	return t.Root.size() == 0
 }
